@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Challenge 1: MTA Turnstile data
+title: Challenge 1 - MTA Turnstile data
 ---
 
 # The project introduction
@@ -53,3 +53,4 @@ Street teams should be placed at the following stations to maximize the number o
 5. 42 St. Port Authority Station​
 
 The optimal days for conducting outreach are Tuesdays through Thursdays.
+```
