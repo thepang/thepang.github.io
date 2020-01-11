@@ -3,19 +3,17 @@ layout: post
 title: Challenge 1: MTA Turnstile data
 ---
 
-#The project introduction
-
+# The project introduction
 The project team is requested to assist the fictional non-profit organization "Women Tech Women Yes". The organization would like to raise awareness and promote an upcoming gala and generally raise awareness of the organization. To this end, they'd like to place street teams strategically at key New York subway stations.
 
-#Asking the right questions
+# Asking the right questions
 
-##Initial question
+## Initial question
 After reviewing the client email and a preliminary review of the data on the MTA website we determined that our first question we will try to answer is:
 > Which stations has the largest number of people entering the station?
-
 This question assumes, primarily, that the larger the number of people entering a station the more chances that the street team has to gain email addresses for their organization.
 
-##Limitations
+## Limitations
 Depending on the number of people on the street team, there is a limit to how many people the team will be able to interact on a given day. At that point, it becomes more important to increase the percentage of people who are:
 - local (actually will be here in the summer to attend)
 - wealthy (able to donate during the gala)
@@ -23,8 +21,7 @@ Depending on the number of people on the street team, there is a limit to how ma
 
 Despite these limitations, the project team focused on the initial question while we learned more about the early stages of EDA.
 
-#Investigating the data
-
+# Investigating the data
 Getting the data directly from MTA was fairly straightforward. Luckily, the data came with an accompanying description of what each of the columns meant. The turnstile data didn't track total entries, but instead incremented as each New Yorker passed through it.
 
 This meant that we would have to take the difference between the last number from one day to the last number from the previous day to determine how many passed through the turnstile. While simple enough to implement using the df.diff() functionality, we found multiple data sets where the diff resulted in negative or 0 values. This shouldn't be happening when if our initial assumption was true. Investigating these issues revealed the data set showing these values were a small fraction and specific to certain turnstiles suggesting that there was an issue on the turnstiles and not our assumptions.
@@ -46,13 +43,13 @@ We also broke up the data by traffic for each workday for the top 5 stations.
 ![Top 15 stations](images/20200110/top5_weekdays.svg)
 
 
-#Conclusion
+# Conclusion
 Street teams should be placed at the following stations to maximize the number of interactions New Yorkers: ​
 
-- 34th St. Penn Station​
-- Grand Central Station​
-- 34th St. Herald Square Station​
-- 23rd St. Station​
-- 42 St. Port Authority Station​
+1. 34th St. Penn Station​
+2. Grand Central Station​
+3. 34th St. Herald Square Station​
+4. 23rd St. Station​
+5. 42 St. Port Authority Station​
 
 The optimal days for conducting outreach are Tuesdays through Thursdays.
