@@ -37,10 +37,10 @@ Eventually we were able to downsample the data to show entries from each turnsti
 We were able to produce the following two outputs that we used to make our final recommendation.
 
 The following chart shows the top 15 station traffic on any given week day.
-![Top 15 stations](images/20200110/avg_weekdays.svg)
+![Top 15 stations](images/202001/avg_weekdays.svg)
 
 We also broke up the data by traffic for each workday for the top 5 stations.
-![Top 15 stations](images/20200110/top5_weekdays.svg)
+![Top 15 stations](images/202001/top5_weekdays.svg)
 
 
 # Conclusion
