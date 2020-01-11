@@ -53,4 +53,3 @@ Street teams should be placed at the following stations to maximize the number o
 5. 42 St. Port Authority Station​
 
 The optimal days for conducting outreach are Tuesdays through Thursdays.
-```
