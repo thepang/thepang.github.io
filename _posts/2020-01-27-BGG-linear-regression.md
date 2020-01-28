@@ -45,7 +45,7 @@ After that initial analysis, I decided to try throwing the full data into statsm
 180 features still seemed a little large for me. I tried generating the [pretty chart](https://scikit-learn.org/stable/auto_examples/linear_model/plot_lasso_lars.html) to see what features could be dropped. However, even testing the approach with 10 features quickly grew untenable. I ended up having to evaluate when features were dropped programmatically. Once I was done, I ended up with 57 features. Running statsmodel again and comparing the various metrics against each other showed that dropping around two thirds of the data only had a small amount of impact to its effectiveness. I thought the overall trade-off in having fewer features vs slightly better metrics was a pretty good tradeoff.
 
 |                  | Model A    | Model B    | Notes              |
-|------------------|:----------:|:----------:| -----------------: |
+|-----------------:|:----------:|:----------:| :----------------- |
 | No. Observations | 24950      | 24950      | Used same data set |
 | Df Model         | 165        | 57         | Reduced parameters after Lasso path |
 | R-squared        | 0.809      | 0.801      | Small degradation |
@@ -64,7 +64,7 @@ After that initial analysis, I decided to try throwing the full data into statsm
 So I had a baseline model that seemed to be fairly predictive of the Geek Rating a game would get. I split up the data into fifths and held off the last 20% for the final test of the model. The 80% for modeling was split into five k-folds for cross validation to compare between linear, ridge, and lasso. Below are the averages across the five runs:
 
 |            | Linear | Lasso    | Ridge    |
-|------------|:------:|:--------:| -------: |
+|-----------:|:------:|:--------:| :------: |
 | R-Squared  | 0.8984 | 0.5000   | 0.8984   |
 | RSME       | 0.1163 | 9.01E+09 | 9.01E+09 |
 | MAE        | 0.0470 | 4.90E+09 | 4.90E+09 |
@@ -77,7 +77,7 @@ There was some attempts at reviewing the features and feature engineering to imp
 The final 20% was run through the model and the results lined up with expectations:
 
 |            | Original | Test    | 
-|------------|:--------:|:-------:| 
+|-----------:|:--------:|:-------:| 
 | R-Squared  | 0.8984   | 0.9009  | 
 | RSME       | 0.1163   | 0.1139  | 
 | MAE        | 0.0470   | 0.04646 | 
@@ -87,7 +87,7 @@ The final 20% was run through the model and the results lined up with expectatio
 The main thing I wanted to explore with my analysis was to see what factors played most into a Geek Rating. This meant that I had to standard scale my non-dummy data against each other. Once complete, I ran the full data set through the model to determine if there was anything interesting I could note from what correlates with a higher Geek Rating. Anything with an absolute value of 0.03 or higher has been included below. As a side note, all the p-values were 0.:
 
 |                                | Coef    | Notes  | 
-|--------------------------------|:-------:|:-------:|
+|-------------------------------:|:-------:|:-------|
 | numowned	                     | 0.4614  | No. of users that reported they own the game |
 | numwanting                     | 0.269   | No. of users that reported they want to play the game | 
 | numwishlistcomments            | 0.1731  | No. of users who added a comment on the game as they are adding to their wishlist |
