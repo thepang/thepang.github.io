@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Project 2
+title: What BGG data has to say about high Geek Rating
 ---
 
 # The project introduction
@@ -11,7 +11,7 @@ on the [booming business](https://www.newstatesman.com/culture/games/2017/01/how
 of [board games](https://www.telegraph.co.uk/news/2019/08/31/gamers-increasingly-swapping-keyboards-dice-board-games-boom/).
 Concurrent with the rise of the board game industry, a board game hobbyist site called [Board Game Geek](https://boardgamegeek.com/) has gained traction as _the_ site for enthusiasts to share reviews and notes on almost any board game. As one of the millions of enthusiasts of Board Game Geek (BGG), I focused on this site for the second project for Metis.
 
-BGG has a Geek Rank that is determined by votes from the users. I wanted to see what factors played into a higher Geek Rank on the site. Numerous tags related to its mechanics, category, and family are collected along with votes on how complex the game could be critical factors along with various data on pricing, page views, and user activities for each board game. Before I dug too deep into the hypothesizing, I first needed to get the data.
+BGG has a Geek Rating that is determined by votes from the users. I wanted to see what factors played into a higher Geek Rating on the site. Numerous tags related to its mechanics, category, and family are collected along with votes on how complex the game could be critical factors along with various data on pricing, page views, and user activities for each board game. Before I dug too deep into the hypothesizing, I first needed to get the data.
 
 # Getting the data
 I'd like to give a brief shoutout to Board Game Geek for creating a site that was fairly easy to scrape.
