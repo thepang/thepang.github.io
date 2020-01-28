@@ -1,6 +1,6 @@
 ---
 layout: post
-title: What BGG data has to say about high Geek Rating
+title: Project 2 - What BGG data has to say about high Geek Rating
 ---
 
 # The project introduction
