@@ -42,20 +42,79 @@ This process got me down to ~180 features which I felt was more appropriate for 
 After that initial analysis, I decided to try throwing the full data into statsmodel OLS function to see if I had something that could be a Linear regression (as opposed to just noise). The initial analysis looked promising enough to continue analysis. 
 
 ## Lasso path using LARS (too many features pt.2)
-180 features still seemed a little large for me. I tried generating the [pretty chart](https://scikit-learn.org/stable/auto_examples/linear_model/plot_lasso_lars.html) to see what features could be dropped. However, even testing the approach with 10 features quickly grew untenable. 
+180 features still seemed a little large for me. I tried generating the [pretty chart](https://scikit-learn.org/stable/auto_examples/linear_model/plot_lasso_lars.html) to see what features could be dropped. However, even testing the approach with 10 features quickly grew untenable. I ended up having to evaluate when features were dropped programmatically. Once I was done, I ended up with 57 features. Running statsmodel again and comparing the various metrics against each other showed that dropping around two thirds of the data only had a small amount of impact to its effectiveness. I thought the overall trade-off in having fewer features vs slightly better metrics was a pretty good tradeoff.
+
+|                  | Model A    | Model B    | Notes              |
+|------------------|:----------:|:----------:| -----------------: |
+| No. Observations | 24950      | 24950      | Used same data set |
+| Df Model         | 165        | 57         | Reduced parameters after Lasso path |
+| R-squared        | 0.809      | 0.801      | Small degradation |
+| Adj. R-squared   | 0.807      | 0.800      | Smaller degradation |
+| Log-Likelihood   | 10416      | 9909.7     | Small degradation |
+| AIC              | -2.050e+04 | -1.970e+04 | Very small improvement |
+| BIC              | -1.915e+04 | -1.923e+04 | Very small degradation | 
 
 ## Lessons for future Pang (and future data scientists)
 1. Rename all columns to only use underscores and strip all other characters. I later learned that statsmodels will complain if the columns have any other characters.
-2. Once
-
-
+2. I think, going forward I would be more mindfully adding features, even if there are 2,000+ categories. This is a personal preference, but it would help me get a better 'feel' for the data.
 
 
 # Modeling, validating, and testing
-Validate Linear, Lasso, & Ridge
+## Exploring modeling options and validate
+So I had a baseline model that seemed to be fairly predictive of the Geek Rating a game would get. I split up the data into fifths and held off the last 20% for the final test of the model. The 80% for modeling was split into five k-folds for cross validation to compare between linear, ridge, and lasso. Below are the averages across the five runs:
 
-# Determining important features
+|            | Linear | Lasso    | Ridge    |
+|------------|:------:|:--------:| -------: |
+| R-Squared  | 0.8984 | 0.5000   | 0.8984   |
+| RSME       | 0.1163 | 9.01E+09 | 9.01E+09 |
+| MAE        | 0.0470 | 4.90E+09 | 4.90E+09 |
 
-The following chart shows the top 15 station traffic on any given week day.
-![Top 15 stations]({{ site.url }}/images/202001/avg_weekdays.svg)
+Linear looked the best, of course, but it was curious to see Lasso's R-square be so low and both Ridge and Lasso's error metrics be so high. If had I had more time, I would have done more to explore the hyperparameters to gain improvements here. 
+
+There was some attempts at reviewing the features and feature engineering to improve/keep the same error metrics while improving multicollinearity issues that statsmodel warned me about. I found some programmatic way to find which features might be collinear, but did not have time to fully implement given the time that I had. Similarly, other attempts at removing or adding features didn't seem to change many of the above metrics so I ended up settling on the linear regression model for my analysis.
+
+## Testing
+The final 20% was run through the model and the results lined up with expectations:
+
+|            | Original | Test    | 
+|------------|:--------:|:-------:| 
+| R-Squared  | 0.8984   | 0.9009  | 
+| RSME       | 0.1163   | 0.1139  | 
+| MAE        | 0.0470   | 0.04646 | 
+
+
+# Reviewing the results
+The main thing I wanted to explore with my analysis was to see what factors played most into a Geek Rating. This meant that I had to standard scale my non-dummy data against each other. Once complete, I ran the full data set through the model to determine if there was anything interesting I could note from what correlates with a higher Geek Rating. Anything with an absolute value of 0.03 or higher has been included below. As a side note, all the p-values were 0.:
+
+|                                | Coef    | Notes  | 
+|--------------------------------|:-------:|:-------:|
+| numowned	                     | 0.4614  | No. of users that reported they own the game |
+| numwanting                     | 0.269   | No. of users that reported they want to play the game | 
+| numwishlistcomments            | 0.1731  | No. of users who added a comment on the game as they are adding to their wishlist |
+| numprevowned                   | 0.0915  | No. of users who marked the game as no longer owned |	
+| numweights	                 | 0.0816  | There is a 'complexity' score provided by users who vote on a scale from 1-5. This is the number of users who provided their rating of the complexity | 
+| mech_networkandroutebuilding   | 0.0348  | A game that has the mechanic where players create routes, like Ticket to Ride | 
+| prices                    	 | 0.0316  | The first price I could grab (could be retail or Amazon's lowest price. All games with no prices were set to 0. |  
+| numplays_month	             | 0.0306  | Users can track their game sessions on the site, this metric shows how many users have logged a play session per month. |  
+| mech_areamajorityinfluence	 | 0.0305  | A game that has the mechanic where area influence is a mechanic. Risk is a popular example. | 
+| cat_childrensgame	             | -0.0396 | A game that has been categorized as a "children's game" |  
+| mech_rollspinandmove	         | -0.0552 | A game that has the mechanic where rolling/spinning and then moving is a mechanic. Sorry or Monopoly are popular examples. | 
+| numwish	                     | -0.2031 | No. of users that reported they would like to have the game | 
+| usersrated	                 | -0.5814 | No. of users that rated the game. |  
+
+## Wanting, wishing, having...
+One of the biggest coefficients is related to those marking the game as being owned. Perhaps this is another expression of the endowment effect. Curiously, `numwish` and `numwanting` see to contradict each other. This is a multi-select checklist, so my assumption would be that they're fairly collinear as they express similar desires.
+
+
+| ![screen shot of BGG UI]({{ site.url }}/images/202001/spirit_island.png) | 
+|:--:| 
+| *Screenshot showing how users mark games as owned, want to play, etc.* |
+
+
+Perhaps there is something users are trying to communicate about wanting to play (regardless of ownership) and feelings of needing to own the latest and greatest game for the hobby?
+
+## Mechanics analysis
+The thing I was most interested in was to see if there were any interesting pieces of analysis that could be  valuable to game designers. It was interesting to note that while the number of people voting on the complexity of the game was positively correlated with the Geek Rating, but the actual rating (called 'avgweights' in the data) was not as important as the rating itself.
+
+Overall, mechanics seem to play less of a role in the final Geek Rating than other factors discussed, but it's relieving to see that the data follows some intuitions. Network and route building and Area majority influence are both mechanics that should allow decent variability in play as route and areas are cut off by fellow players, while Roll/spin and move produces more similar playthroughs.
 
